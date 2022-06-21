@@ -13,7 +13,7 @@
 %define pname spack
 
 Name:		%{pname}%{PROJ_DELIM}
-Version:	0.15.0
+Version:	0.17.0
 Release:	1%{?dist}
 Summary:	HPC software package management
 
@@ -22,16 +22,32 @@ License:	LGPL
 URL:		https://github.com/LLNL/spack
 Source0:	https://github.com/LLNL/%{pname}/archive/v%{version}.tar.gz
 
-BuildArch: noarch
 BuildRequires: rsync
 BuildRequires: python3
 Requires: bash
-Requires: curl
 Requires: coreutils
 Requires: subversion
 Requires: hg
 Requires: patch
 Requires: python3-mock
+Requires: gcc
+Requires: gcc-c++
+Requires: make
+Requires: tar
+Requires: gzip
+Requires: unzip
+Requires: bzip2
+Requires: xz
+Requires: zstd
+Requires: file
+Requires: git
+Requires: curl
+%if 0%{?rhel}
+Requires: gnupg2
+%endif
+%if 0%{?suse_version}
+Requires: gpg2
+%endif
 
 %global install_path %{OHPC_ADMIN}/%{pname}/%version
 # Turn off the brp-python-bytecompile script
@@ -63,6 +79,9 @@ grep -rl '#!/bin/env ' . | xargs -i@ sed -i 's|#!/bin/env|#!/usr/bin/env|g' @
 %install
 mkdir -p %{buildroot}%{install_path}
 rsync -av --exclude=.gitignore {etc,bin,lib,var,share} %{buildroot}%{install_path}
+
+# remove embedded binary with /usr/tce rpaths that breaks Leap 15.3 builds
+rm -f %{buildroot}/%{install_path}/var/spack/repos/builtin/packages/patchelf/test/hello 
 
 # OpenHPC module file
 %{__mkdir} -p %{buildroot}/%{OHPC_ADMIN}/modulefiles/spack

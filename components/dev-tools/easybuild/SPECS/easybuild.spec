@@ -15,7 +15,7 @@
 
 Summary:   Software build and installation framework
 Name:      EasyBuild%{PROJ_DELIM}
-Version:   4.4.2
+Version:   4.5.5
 Release:   1%{?dist}
 License:   GPLv2
 Group:     %{PROJ_NAME}/dev-tools
@@ -27,7 +27,8 @@ Source2:   https://pypi.io/packages/source/e/easybuild-framework/easybuild-frame
 Source3:   bootstrap_eb.py
 BuildRequires: python3
 BuildRequires: python3-setuptools
-Requires: python3
+Requires:  python3
+Requires:  patch
 #!BuildIgnore: post-build-checks
 
 # Lmod dependency (note that lmod is pre-populated in the OpenHPC OBS build

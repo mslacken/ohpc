@@ -7,11 +7,11 @@
 \input{vc.tex}
 
 % Define Base OS and other local macros
-\newcommand{\baseOS}{Rocky 8.4}
-\newcommand{\OSRepo}{Rocky\_8.4}
-\newcommand{\OSTree}{CentOS\_8}
+\newcommand{\baseOS}{Rocky 8.5}
+\newcommand{\OSRepo}{Rocky\_8.5}
+\newcommand{\OSTree}{EL\_8}
 \newcommand{\OSTag}{el8}
-\newcommand{\baseos}{rocky8.4}
+\newcommand{\baseos}{rocky8.5}
 \newcommand{\baseosshort}{rocky8}
 \newcommand{\provisioner}{Warewulf}
 \newcommand{\provheader}{\provisioner{}}
@@ -149,7 +149,7 @@
 # Add Network Time Protocol (NTP) support
 [sms](*\#*) (*\chrootinstall*) chrony
 # Identify master host as local NTP server
-[sms](*\#*) echo "server ${sms_ip}" >> $CHROOT/etc/chrony.conf
+[sms](*\#*) echo "server ${sms_ip} iburst" >> $CHROOT/etc/chrony.conf
 
 # Add kernel drivers (matching kernel version on SMS node)
 [sms](*\#*) (*\chrootinstall*) kernel-`uname -r`
@@ -159,8 +159,11 @@
 \end{lstlisting}
 % end_ohpc_run
 
+\vspace*{.2cm}
 \subsubsection{Customize system configuration} \label{sec:master_customization}
 \input{common/warewulf_chroot_customize_centos}
+\input{common/oneapi_mountpoint}
+\input{common/restart_nfs}
 
 % Additional commands when additional computes are requested
 
@@ -188,9 +191,11 @@
 \paragraph{Increase locked memory limits}
 \input{common/memlimits}
 
+\vspace*{-.18cm}
 \paragraph{Enable ssh control via resource manager} 
 \input{common/slurm_pam}
 
+\vspace*{-.18cm}
 \paragraph{Add \beegfs{}} \label{sec:add_beegfs}
 \input{common/install_beegfs_client_centos}
 
@@ -200,6 +205,7 @@
 \input{common/lustre-client-centos}
 \input{common/lustre-client-post}
 
+\vspace*{.45cm}
 \paragraph{Enable forwarding of system logs} \label{sec:add_syslog}
 \input{common/syslog}
 
@@ -250,10 +256,11 @@
 \input{common/stateful}
 
 %\vspace*{-0.4cm}
+\clearpage
 \subsection{Boot compute nodes} \label{sec:boot_computes}
 \input{common/reset_computes} 
 
-\clearpage
+%\clearpage
 \section{Install \OHPC{} Development Components}
 \input{common/dev_intro.tex}
 
@@ -275,7 +282,7 @@
 \subsection{Setup default development environment}
 \input{common/default_dev}
 
-%\vspace*{0.2cm}
+\vspace*{0.3cm}
 \subsection{3rd Party Libraries and Tools} \label{sec:3rdparty}
 \input{common/third_party_libs_intro}
 \input{common/third_party_libs_petsc_centos}
@@ -284,7 +291,7 @@
 \input{common/third_party_mpi_libs_x86}
 \vspace*{0.5cm}
 \subsection{Optional Development Tool Builds} \label{sec:3rdparty_intel}
-\input{common/psxe_enabled_builds_with_geopm}
+\input{common/oneapi_enabled_builds.tex}
 
 \clearpage
 \section{Resource Manager Startup} \label{sec:rms_startup}

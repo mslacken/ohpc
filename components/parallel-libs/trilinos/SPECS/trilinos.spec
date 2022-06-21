@@ -16,10 +16,10 @@
 
 # Base package name
 %define pname trilinos
-%define ver_exp 13-0-0
+%define ver_exp 13-2-0
 
 Name:           %{pname}-%{compiler_family}-%{mpi_family}%{PROJ_DELIM}
-Version:        13.0.0
+Version:        13.2.0
 Release:        1%{?dist}
 Summary:        A collection of libraries of numerical algorithms
 # Trilinos is licensed on a per-package basis. Refer to https://trilinos.github.io/license.html
@@ -28,6 +28,7 @@ Group:          %{PROJ_NAME}/parallel-libs
 Url:            https://trilinos.org/
 Source0:        https://github.com/trilinos/Trilinos/archive/trilinos-release-%{ver_exp}.tar.gz
 Patch0:         trilinos-13_0_0-destdir_fix.patch
+Patch1:         trilinos-13_2_0-lapack_nothrow.patch
 
 Requires:       lmod%{PROJ_DELIM} >= 7.6.1
 Requires:       python3
@@ -71,6 +72,7 @@ For a summary of included packages see https://trilinos.github.io/packages.html
 %prep
 %setup -q -n  Trilinos-trilinos-release-%{ver_exp}
 %patch0 -p1
+%patch1 -p1
 
 %build
 # OpenHPC compiler/mpi designation

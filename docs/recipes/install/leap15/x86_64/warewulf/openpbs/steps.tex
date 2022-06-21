@@ -7,11 +7,11 @@
 \input{vc.tex}
 
 % Define Base OS and other local macros
-\newcommand{\baseOS}{OpenSUSE Leap 15.2}
-\newcommand{\OSRepo}{Leap\_15\_2}
+\newcommand{\baseOS}{OpenSUSE Leap 15.3}
+\newcommand{\OSRepo}{Leap\_15\_3}
 \newcommand{\OSTree}{Leap\_15}
 \newcommand{\OSTag}{leap15}
-\newcommand{\baseos}{leap15.2}
+\newcommand{\baseos}{leap15.3}
 \newcommand{\baseosshort}{leap15}
 \newcommand{\provisioner}{Warewulf}
 \newcommand{\provheader}{\provisioner{}}
@@ -138,7 +138,7 @@
 [sms](*\#*) (*\chrootinstall*) chrony
 [sms](*\#*) chroot $CHROOT systemctl enable chronyd
 # Identify master host as local NTP server
-[sms](*\#*) echo "server ${sms_ip}" >> $CHROOT/etc/chrony.conf
+[sms](*\#*) echo "server ${sms_ip} iburst" >> $CHROOT/etc/chrony.conf
 
 # Add kernel drivers
 [sms](*\#*) (*\chrootinstall*) kernel-default
@@ -157,6 +157,8 @@
 \vspace*{-0.3cm}
 \subsubsection{Customize system configuration} \label{sec:master_customization}
 \input{common/warewulf_chroot_customize_sles}
+\input{common/oneapi_mountpoint}
+\input{common/restart_nfs}
 
 \subsubsection{Additional Customization ({\em optional})} \label{sec:addl_customizations}
 \input{common/compute_customizations_intro}
@@ -164,23 +166,26 @@
 \paragraph{Enable \InfiniBand{} drivers}
 \input{common/ibsupport_compute_sles.tex}
 
+\vspace*{-0.1cm}
 \paragraph{Enable \OmniPath{} drivers}
 \input{common/opasupport_compute_sles.tex}
 
+\vspace*{-0.1cm}
 \paragraph{Increase locked memory limits}
 \input{common/memlimits} 
 
-\vspace*{0.1cm}
+\vspace*{-0.1cm}
 \paragraph{Add \beegfs{}} \label{sec:add_beegfs}
 \input{common/install_beegfs_client_sles}
 
+\vspace*{-0.1cm}
 \paragraph{Add \Lustre{} client} \label{sec:lustre_client}
 \input{common/lustre-client}
-\vspace*{0.1cm}
+%\vspace*{0.1cm}
 \input{common/lustre-client-sles}
 \input{common/lustre-client-post}
 
-\clearpage
+%\clearpage
 \paragraph{Enable forwarding of system logs} \label{sec:add_syslog}
 \input{common/syslog}
 
@@ -190,6 +195,7 @@
 \paragraph{Add \clustershell{}}
 \input{common/clustershell}
 
+\vspace*{0.2cm}
 \paragraph{Add \genders{}}
 \input{common/genders}
 
@@ -256,7 +262,7 @@
 \input{common/third_party_mpi_libs_x86}
 
 \subsection{Optional Development Tool Builds} \label{sec:3rdparty_intel}
-\input{common/psxe_enabled_builds_with_geopm}
+\input{common/oneapi_enabled_builds}
 
 \clearpage
 \section{Resource Manager Startup} \label{sec:rms_startup}

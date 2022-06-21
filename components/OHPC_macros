@@ -89,10 +89,6 @@ Requires:      gnu8-compilers%{PROJ_DELIM} >= 8.3.0
 %endif # gnu8
 
 %if "%{compiler_family}" == "intel"
-%if 0%{?OHPC_BUILD}
-BuildRequires: intel_licenses
-BuildRequires: psxe%{PROJ_DELIM}
-%endif # OHPC_BUILD
 BuildRequires: gcc-c++ intel-compilers-devel%{PROJ_DELIM}
 Requires:      gcc-c++ intel-compilers-devel%{PROJ_DELIM}
 %endif # intel
@@ -127,9 +123,6 @@ Requires:      llvm-compilers%{PROJ_DELIM} >= 9.0.0
 # MPI dependencies
 %if 0%{?ohpc_mpi_dependent} == 1
 %if "%{mpi_family}" == "impi"
-%if 0%{?OHPC_BUILD}
-BuildRequires: impi%{PROJ_DELIM}
-%endif # OHPC_BUILD
 BuildRequires: intel-mpi-devel%{PROJ_DELIM}
 Requires:      intel-mpi-devel%{PROJ_DELIM}
 %global __requires_exclude ^libmpi\\.so.*$|^libmpifort\\.so.*$|^libmpicxx\\.so.*$
