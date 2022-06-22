@@ -93,8 +93,12 @@ make
 %install
 export NO_BRP_STALE_LINK_ERROR=yes
 make install DESTDIR=%{buildroot}
-
-
+# move dhcp.conf.ww to right dir as symlink might conflict
+%if 0%{?suse_version} || 0%{?sle_version}
+rm %{buildroot}%{statedir}/warewulf/overlays/host/etc/dhcpd.conf
+mv %{buildroot}%{statedir}/warewulf/overlays/host/etc/dhcp/dhcpd.conf.ww \
+    %{buildroot}%{statedir}/warewulf/overlays/host/etc/
+%endif
 %pre
 getent group %{wwgroup} >/dev/null || groupadd -r %{wwgroup}
 
